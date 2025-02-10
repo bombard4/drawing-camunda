@@ -18,10 +18,10 @@
         <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=IsMobil = true</bpmn:conditionExpression>
       </bpmn:sequenceFlow>
       <bpmn:endEvent id="Event_18tet6a">
-        <bpmn:incoming>Flow_12o72qw</bpmn:incoming>
         <bpmn:incoming>Flow_08a6os2</bpmn:incoming>
+        <bpmn:incoming>Flow_1xp2fuq</bpmn:incoming>
       </bpmn:endEvent>
-      <bpmn:sequenceFlow id="Flow_12o72qw" sourceRef="Gateway_0r8g2xk" targetRef="Event_18tet6a" />
+      <bpmn:sequenceFlow id="Flow_12o72qw" sourceRef="Gateway_0r8g2xk" targetRef="Activity_10aoe0n" />
       <bpmn:serviceTask id="Activity_1gc5mbb" name="SendPushNotification">
         <bpmn:extensionElements>
           <zeebe:taskDefinition type="send-push-notification" retries="2" />
@@ -70,6 +70,14 @@
         <bpmn:outgoing>Flow_06851tg</bpmn:outgoing>
       </bpmn:scriptTask>
       <bpmn:sequenceFlow id="Flow_06851tg" sourceRef="Activity_0dr9ddm" targetRef="Activity_1gc5mbb" />
+      <bpmn:serviceTask id="Activity_10aoe0n" name="Acer Callback HTTP">
+        <bpmn:extensionElements>
+          <zeebe:taskDefinition type="sss" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_12o72qw</bpmn:incoming>
+        <bpmn:outgoing>Flow_1xp2fuq</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="Flow_1xp2fuq" sourceRef="Activity_10aoe0n" targetRef="Event_18tet6a" />
     </bpmn:subProcess>
     <bpmn:startEvent id="Event_1ve69sh">
       <bpmn:outgoing>Flow_1jxbjti</bpmn:outgoing>
@@ -159,7 +167,7 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_045fklp">
       <bpmndi:BPMNShape id="Activity_13mci5b_di" bpmnElement="Activity_13mci5b" isExpanded="true">
-        <dc:Bounds x="290" y="80" width="1700" height="450" />
+        <dc:Bounds x="290" y="40" width="1700" height="490" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0v3t45x_di" bpmnElement="Event_0v3t45x">
         <dc:Bounds x="362" y="282" width="36" height="36" />
@@ -193,6 +201,10 @@
         <dc:Bounds x="870" y="260" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1wqczxh" bpmnElement="Activity_10aoe0n">
+        <dc:Bounds x="1220" y="110" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0al7fy0_di" bpmnElement="Flow_0al7fy0">
         <di:waypoint x="610" y="300" />
         <di:waypoint x="705" y="300" />
@@ -203,9 +215,8 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_12o72qw_di" bpmnElement="Flow_12o72qw">
         <di:waypoint x="730" y="275" />
-        <di:waypoint x="730" y="180" />
-        <di:waypoint x="1870" y="180" />
-        <di:waypoint x="1870" y="282" />
+        <di:waypoint x="730" y="150" />
+        <di:waypoint x="1220" y="150" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1r0herz_di" bpmnElement="Flow_1r0herz">
         <di:waypoint x="1240" y="300" />
@@ -226,6 +237,11 @@
       <bpmndi:BPMNEdge id="Flow_06851tg_di" bpmnElement="Flow_06851tg">
         <di:waypoint x="970" y="300" />
         <di:waypoint x="1140" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xp2fuq_di" bpmnElement="Flow_1xp2fuq">
+        <di:waypoint x="1320" y="150" />
+        <di:waypoint x="1870" y="150" />
+        <di:waypoint x="1870" y="282" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_1slmg9k_di" bpmnElement="Event_1ve69sh">
         <dc:Bounds x="152" y="287" width="36" height="36" />
