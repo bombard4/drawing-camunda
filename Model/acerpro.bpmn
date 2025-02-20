@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_15tonqf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.31.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_15tonqf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.32.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0">
   <bpmn:process id="Process_045fklp" isExecutable="true">
     <bpmn:subProcess id="Activity_13mci5b">
       <bpmn:incoming>Flow_1jxbjti</bpmn:incoming>
@@ -26,7 +26,7 @@
         <bpmn:extensionElements>
           <zeebe:taskDefinition type="send-push-notification" retries="2" />
           <zeebe:ioMapping>
-            <zeebe:input source="={&#10;  &#34;Title&#34; : PNTitle,&#10;  &#34;Content&#34; : PNContent,&#10;  &#34;DeeplinkUrl&#34;: DeeplinkUrl&#10;}" target="SendPushNotificationInputDto" />
+            <zeebe:input source="={&#10;  &#34;Title&#34; : &#34;Sözleşme Onayı&#34;,&#10;  &#34;Content&#34; : &#34;ile ilgili onaylamanız gereken dokümanlar bulunmaktadır.&#34;,&#10;  &#34;DeeplinkUrl&#34;: &#34;onmobil//approved-documents-filter&#34;&#10;}" target="SendPushNotificationInputDto" />
           </zeebe:ioMapping>
         </bpmn:extensionElements>
         <bpmn:incoming>Flow_06851tg</bpmn:incoming>
@@ -50,7 +50,7 @@
       </bpmn:serviceTask>
       <bpmn:serviceTask id="Activity_02yt4ga" name="Acer Callback HTTP">
         <bpmn:extensionElements>
-          <zeebe:taskDefinition type="sss" />
+          <zeebe:taskDefinition type="acerprocallbackapi" />
         </bpmn:extensionElements>
         <bpmn:incoming>Flow_1opi04k</bpmn:incoming>
         <bpmn:outgoing>Flow_08a6os2</bpmn:outgoing>
@@ -72,7 +72,7 @@
       <bpmn:sequenceFlow id="Flow_06851tg" sourceRef="Activity_0dr9ddm" targetRef="Activity_1gc5mbb" />
       <bpmn:serviceTask id="Activity_10aoe0n" name="Acer Callback HTTP">
         <bpmn:extensionElements>
-          <zeebe:taskDefinition type="sss" />
+          <zeebe:taskDefinition type="acerprocallbackapi" />
         </bpmn:extensionElements>
         <bpmn:incoming>Flow_12o72qw</bpmn:incoming>
         <bpmn:outgoing>Flow_1xp2fuq</bpmn:outgoing>
@@ -88,15 +88,10 @@
       <bpmn:outgoing>Flow_1ia4uax</bpmn:outgoing>
       <bpmn:errorEventDefinition id="ErrorEventDefinition_18ico9b" />
     </bpmn:boundaryEvent>
-    <bpmn:boundaryEvent id="Event_047oktk" name="Cancel" attachedToRef="Activity_13mci5b">
-      <bpmn:outgoing>Flow_10meli5</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1urucbi" messageRef="Message_1bollvm" />
-    </bpmn:boundaryEvent>
     <bpmn:endEvent id="Event_0p6wor6">
       <bpmn:incoming>Flow_0z65z4o</bpmn:incoming>
       <bpmn:incoming>Flow_16od96a</bpmn:incoming>
       <bpmn:incoming>Flow_1vxvbgm</bpmn:incoming>
-      <bpmn:incoming>Flow_1nxsikq</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0z65z4o" sourceRef="Activity_13mci5b" targetRef="Event_0p6wor6" />
     <bpmn:subProcess id="Activity_02iq77l">
@@ -105,16 +100,18 @@
       <bpmn:startEvent id="Event_1va0pkc">
         <bpmn:outgoing>Flow_1suuxtu</bpmn:outgoing>
       </bpmn:startEvent>
-      <bpmn:task id="Activity_08cyzpg" name="Acer Callback HTTP">
-        <bpmn:documentation>Error time out ortak cevam verilecek</bpmn:documentation>
-        <bpmn:incoming>Flow_1suuxtu</bpmn:incoming>
-        <bpmn:outgoing>Flow_0nal85w</bpmn:outgoing>
-      </bpmn:task>
-      <bpmn:sequenceFlow id="Flow_1suuxtu" sourceRef="Event_1va0pkc" targetRef="Activity_08cyzpg" />
+      <bpmn:sequenceFlow id="Flow_1suuxtu" sourceRef="Event_1va0pkc" targetRef="Activity_1dwwp3h" />
       <bpmn:endEvent id="Event_0lto1bp">
-        <bpmn:incoming>Flow_0nal85w</bpmn:incoming>
+        <bpmn:incoming>Flow_12020vt</bpmn:incoming>
       </bpmn:endEvent>
-      <bpmn:sequenceFlow id="Flow_0nal85w" sourceRef="Activity_08cyzpg" targetRef="Event_0lto1bp" />
+      <bpmn:serviceTask id="Activity_1dwwp3h" name="Acer Callback HTTP">
+        <bpmn:extensionElements>
+          <zeebe:taskDefinition type="acerprocallbackapi" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_1suuxtu</bpmn:incoming>
+        <bpmn:outgoing>Flow_12020vt</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="Flow_12020vt" sourceRef="Activity_1dwwp3h" targetRef="Event_0lto1bp" />
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="Flow_1ia4uax" sourceRef="Event_113wc4e" targetRef="Activity_02iq77l" />
     <bpmn:boundaryEvent id="Event_1xxkfoc" name="TimeOut" attachedToRef="Activity_13mci5b">
@@ -136,12 +133,6 @@
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="Flow_16od96a" sourceRef="Event_13zpj40" targetRef="Event_0p6wor6" />
     <bpmn:sequenceFlow id="Flow_1vxvbgm" sourceRef="Event_1kiy8dp" targetRef="Event_0p6wor6" />
-    <bpmn:sequenceFlow id="Flow_10meli5" sourceRef="Event_047oktk" targetRef="Activity_1em0fb1" />
-    <bpmn:task id="Activity_1em0fb1" name="cancel konuslacak">
-      <bpmn:incoming>Flow_10meli5</bpmn:incoming>
-      <bpmn:outgoing>Flow_1nxsikq</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:sequenceFlow id="Flow_1nxsikq" sourceRef="Activity_1em0fb1" targetRef="Event_0p6wor6" />
   </bpmn:process>
   <bpmn:message id="Message_1mnyb4u" name="document-onlinesign-approved">
     <bpmn:extensionElements>
@@ -250,29 +241,36 @@
         <dc:Bounds x="2102" y="332" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_02iq77l_di" bpmnElement="Activity_02iq77l" isExpanded="true">
-        <dc:Bounds x="790" y="660" width="450" height="200" />
+        <dc:Bounds x="790" y="660" width="450" height="260" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1va0pkc_di" bpmnElement="Event_1va0pkc">
         <dc:Bounds x="852" y="732" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_1t4s28p" bpmnElement="Activity_08cyzpg">
-        <dc:Bounds x="950" y="710" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0nf5ip8" bpmnElement="Event_0lto1bp">
         <dc:Bounds x="1112" y="732" width="36" height="36" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_175ibad" bpmnElement="Activity_1dwwp3h">
+        <dc:Bounds x="940" y="710" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1suuxtu_di" bpmnElement="Flow_1suuxtu">
         <di:waypoint x="888" y="750" />
-        <di:waypoint x="950" y="750" />
+        <di:waypoint x="940" y="750" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0nal85w_di" bpmnElement="Flow_0nal85w">
-        <di:waypoint x="1050" y="750" />
+      <bpmndi:BPMNEdge id="Flow_12020vt_di" bpmnElement="Flow_12020vt">
+        <di:waypoint x="1040" y="750" />
         <di:waypoint x="1112" y="750" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Activity_1em0fb1_di" bpmnElement="Activity_1em0fb1">
-        <dc:Bounds x="1560" y="610" width="100" height="80" />
-        <bpmndi:BPMNLabel />
+      <bpmndi:BPMNShape id="Event_1bunwqs_di" bpmnElement="Event_1xxkfoc">
+        <dc:Bounds x="1122" y="512" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1120" y="555" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0l43t8a_di" bpmnElement="Event_113wc4e">
+        <dc:Bounds x="872" y="512" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="878" y="555" width="25" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_1yamewa" bpmnElement="Event_13zpj40">
         <dc:Bounds x="1222" y="772" width="36" height="36" />
@@ -284,24 +282,6 @@
         <dc:Bounds x="1222" y="702" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1220" y="745" width="42" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1bunwqs_di" bpmnElement="Event_1xxkfoc">
-        <dc:Bounds x="1122" y="512" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1120" y="555" width="42" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1do7aj5_di" bpmnElement="Event_047oktk">
-        <dc:Bounds x="1592" y="512" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1593" y="555" width="35" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0l43t8a_di" bpmnElement="Event_113wc4e">
-        <dc:Bounds x="872" y="512" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="878" y="555" width="25" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1jxbjti_di" bpmnElement="Flow_1jxbjti">
@@ -328,15 +308,6 @@
       <bpmndi:BPMNEdge id="Flow_1vxvbgm_di" bpmnElement="Flow_1vxvbgm">
         <di:waypoint x="1258" y="720" />
         <di:waypoint x="2120" y="720" />
-        <di:waypoint x="2120" y="368" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_10meli5_di" bpmnElement="Flow_10meli5">
-        <di:waypoint x="1610" y="548" />
-        <di:waypoint x="1610" y="610" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1nxsikq_di" bpmnElement="Flow_1nxsikq">
-        <di:waypoint x="1660" y="650" />
-        <di:waypoint x="2120" y="650" />
         <di:waypoint x="2120" y="368" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
