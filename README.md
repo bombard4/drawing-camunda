@@ -2,4 +2,4 @@
  çizin notlari
 AcerPro
 https://hackmd.io/67qBXBPrRpWPj9pxTPHiAA
-![alt text](image.png)
+![alt text](acerpro2.png)
